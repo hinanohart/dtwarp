@@ -102,8 +102,9 @@ def accelerated_softdtw_divergence(
     elif x.is_cuda and not maghoumi_available() and not _WARNED_FALLBACK:
         _WARNED_FALLBACK = True
         warnings.warn(
-            "dtwarp: CUDA tensor but the optional 'pytorch-softdtw-cuda' kernel is not installed; "
-            "using the pure-PyTorch reference. Install dtwarp[cuda] for the fast-path.",
+            "dtwarp: CUDA tensor but the optional 'pytorch_softdtw_cuda' kernel is not importable; "
+            "using the pure-PyTorch reference. It is not on PyPI; install it yourself "
+            "(e.g. pip install 'git+https://github.com/Maghoumi/pytorch-softdtw-cuda') for the fast-path.",
             stacklevel=2,
         )
     return softdtw_divergence(x, y, gamma=gamma, valid_lengths=valid_lengths)

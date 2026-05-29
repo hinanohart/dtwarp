@@ -99,7 +99,8 @@ tier auto-degrades to `alternative-elastic-loss` and the word "better" is forbid
 
 - **v0.1**: divergence (gamma 0.1, sweep grid), endpoint-seeded pad-mask, ACT + pi0/SmolVLA
   flow heads, convex-blend knob (lambda=0 is a bit-exact regression guard), opt-in
-  derivative cost channel (w_deriv=0 default), optional `[cuda]` Maghoumi fast-path
-  (lazy/guarded/never-vendored), Tier-1 CPU harness with paired bootstrap CI + auto-degrade.
+  derivative cost channel (w_deriv=0 default), optional Maghoumi CUDA fast-path
+  (git-install / not on PyPI, lazy/guarded/never-vendored), Tier-1 CPU harness with paired
+  bootstrap CI + auto-degrade.
 - **v0.2**: DP `dp_x0_aux` with SNR clamp, offline DBA barycenter relabel, learnable
   Mahalanobis cost, annealed blend schedule, Tier-2 closed-loop.
