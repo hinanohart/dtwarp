@@ -4,7 +4,7 @@
   "repo_slug": "hinanohart/dtwarp",
   "protocol_version": "1.0",
   "trigger": "OSS\u958b\u59cb (continuation message, 2026-05-29)",
-  "current_step": "S11",
+  "current_step": "DONE",
   "completed_steps": [
     "S0",
     "S0_5",
@@ -17,7 +17,8 @@
     "S7",
     "S8",
     "S9",
-    "S10"
+    "S10",
+    "S11"
   ],
   "step_attempts": 0,
   "s4_s5_evidence": "29 tests pass; ruff clean; mypy --strict 0 issues. S4: act_head/flow_matching_head blend=0 bit-exact vs independent inline transcription of LeRobot ACT(masked-L1 num_valid*A) and flow MSE (pi0 plain-mean / SmolVLA masked-mean); AnnealedBlendSchedule monotone-clamped; dp_x0_aux warns; VQ-BeT/diffusion guards raise; wrap_policy(mock ACT) blend=0 matches native. S5: cuda fast-path lazy (not imported at package load), _fastpath_ok guard branches, never-vendored source scan, CPU fallback==reference.",
@@ -164,7 +165,7 @@
       "progress test-count refresh 37"
     ],
     "blockers_open": [],
-    "github_state_checked": false,
+    "github_state_checked": true,
     "s11_must_do": "CI 6-run green + branch protection 8 contexts + repo 404->live + release v0.1.0a1 pre-release + dependabot guard + clean-clone repro"
   },
   "publish": {
@@ -191,9 +192,9 @@
     "S8": true,
     "S9": true,
     "S10": true,
-    "S11": false
+    "S11": true
   },
-  "next_action": "S10 publish: gh repo create --public --source=. --push; CI green; branch protection (8 contexts); hardening; tag v0.1.0a1 pre-release",
+  "next_action": "DONE - session-closeable. v0.1.1 = residual_v0_1_1",
   "blockers": [],
   "wip_quarantine": [],
   "retry_counts": {},
@@ -225,5 +226,22 @@
     "pytest": "37 pass",
     "import": "OK",
     "tier1_reproduced": "delta=-511.37273 CI=[-555.80759,-467.55085] EXACT match"
-  }
+  },
+  "status": "done",
+  "s11_reaudit_trio": {
+    "A_github_state": "GITHUB-STATE-CLEAN (CI 8/8 green, branch protection 8 contexts, PUBLIC/Apache/wiki-off, pre-release tag, 0 open PR/issue, clean-clone 37 pass)",
+    "B_dod_honesty": "SESSION-CLOSEABLE CRITICAL0/MAJOR0 (DoD 9/10 pass; caught MINOR: cuda_fastpath warning + DESIGN_NOTES referenced removed [cuda] extra)",
+    "C_meta": "SESSION-CLOSEABLE / DONE-OK (A&B functioned+mutually-complemented, no contradictions, MINOR fixes verified rc=1, latest CI 26645534437 success on 67aa202, pytest 37)",
+    "minor_fixed_post_publish": [
+      "cuda_fastpath.py:106 warning -> git-install guidance",
+      "DESIGN_NOTES [cuda] -> Maghoumi git-install"
+    ]
+  },
+  "residual_v0_1_1": [
+    "tag v0.1.0a1 is 1 commit behind main HEAD (released code captured correctly; re-tag next release)",
+    "Node20 actions deprecation (checkout@v4/setup-uv@v5; bump before forced cutover; dependabot will re-propose)",
+    "Tier-2 closed-loop (gym-pusht) deferred",
+    "DP dp_x0_aux+SNR-clamp v0.2",
+    "GAK/per_channel v0.2"
+  ]
 }
