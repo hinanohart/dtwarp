@@ -1,0 +1,72 @@
+{
+  "blend": 0.5,
+  "bootstrap": {
+    "ci_high": -467.55084754914014,
+    "ci_low": -555.8075939816565,
+    "delta": -511.3727286821302,
+    "excludes_zero": true,
+    "favors_dtwarp": false,
+    "n": 1854,
+    "n_resamples": 2000
+  },
+  "chunk": 16,
+  "claim": {
+    "claim_tier": "increases-heldout-error-on-this-dataset",
+    "crosses_zero": false,
+    "may_say_better": false,
+    "underpowered": false
+  },
+  "dataset_kind": "pusht_keypoints",
+  "disclaimer": "On real-pusht_keypoints, dtwarp did NOT lower held-out action error (CI strictly negative). Reported honestly; dtwarp is an alternative elastic loss, not an improvement here.",
+  "gamma": 0.1,
+  "hardware": {
+    "device": "cpu",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "torch": "2.10.0+cu128"
+  },
+  "metric": "heldout_plain_masked_action_mse_delta(baseline-dtwarp) [HEADLINE,neutral]",
+  "mode": "real-pusht_keypoints",
+  "n_heldout_units": 1854,
+  "n_samples": 2473,
+  "paired": true,
+  "per_seed": [
+    {
+      "baseline_dtw_aligned": 3706.1669921875,
+      "baseline_plain_mse": 1985.8223876953125,
+      "dtwarp_dtw_aligned": 3246.114990234375,
+      "dtwarp_plain_mse": 2534.80224609375,
+      "seed": 0.0
+    },
+    {
+      "baseline_dtw_aligned": 3885.826171875,
+      "baseline_plain_mse": 2078.2412109375,
+      "dtwarp_dtw_aligned": 3493.617431640625,
+      "dtwarp_plain_mse": 2578.76123046875,
+      "seed": 1.0
+    },
+    {
+      "baseline_dtw_aligned": 3865.093017578125,
+      "baseline_plain_mse": 2061.09228515625,
+      "dtwarp_dtw_aligned": 3447.109619140625,
+      "dtwarp_plain_mse": 2545.71044921875,
+      "seed": 2.0
+    }
+  ],
+  "secondary_bootstrap": {
+    "ci_high": 499.5308068885,
+    "ci_low": 346.119858204534,
+    "delta": 423.4146642962706,
+    "excludes_zero": true,
+    "favors_dtwarp": true,
+    "n": 1854,
+    "n_resamples": 2000
+  },
+  "secondary_metric": "heldout_softdtw_divergence_delta(baseline-dtwarp) [context:dtwarp's own metric]",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "steps": 500
+}
