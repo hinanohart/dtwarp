@@ -1,0 +1,33 @@
+{
+  "_comment": "Frozen LeRobot loss-reduction anchors. These pin the EXACT upstream source locations whose reduction formulas dtwarp's heads must reproduce bit-for-bit at blend=0 (lambda=0). Re-resolve (do NOT hardcode line numbers from memory) whenever the pinned SHA changes. See tests/test_heads.py for the bit-exact regression tests keyed off these formulas.",
+  "lerobot_repo": "huggingface/lerobot",
+  "lerobot_pinned_sha": "24017e960c39a24fe1b6ea6248522460fa5aa4b3",
+  "lerobot_version": "0.5.2",
+  "resolved_on": "2026-05-29",
+  "anchors": {
+    "act_l1": {
+      "file": "src/lerobot/policies/act/modeling_act.py",
+      "lines": "145-150",
+      "reduction": "abs_err = F.l1_loss(target, pred, reduction='none'); valid_mask = ~action_is_pad.unsqueeze(-1); num_valid = valid_mask.sum() * A; loss = (abs_err * valid_mask).sum() / num_valid.clamp_min(1)",
+      "dtwarp_head": "act_head, pad_aware=True; blend=0 MUST equal this scalar"
+    },
+    "pi0_flow": {
+      "file": "src/lerobot/policies/pi0/modeling_pi0.py",
+      "lines": "765-811, policy.forward 1283-1320",
+      "reduction": "u_t = noise - actions; v_t = predicted velocity; losses = F.mse_loss(u_t, v_t, reduction='none'); losses = losses[:,:,:A_real]; loss = losses.mean()   (NO time-pad mask in pi0 forward)",
+      "dtwarp_head": "flow_matching_head, pad_aware=False; blend=0 MUST equal plain masked-mean(=mean when no pad)"
+    },
+    "smolvla_flow": {
+      "file": "src/lerobot/policies/smolvla/modeling_smolvla.py",
+      "lines": "380-402",
+      "reduction": "losses (B,T,A) from model.forward; losses = losses * in_episode_bound.unsqueeze(-1); reduction='none': num_valid = ((~action_is_pad).sum(1) * A).clamp_min(1); per_sample = losses.sum((1,2)) / num_valid",
+      "dtwarp_head": "flow_matching_head, pad_aware=True; blend=0 MUST equal this masked mean"
+    },
+    "diffusion_epsilon": {
+      "file": "src/lerobot/policies/diffusion/modeling_diffusion.py",
+      "lines": "151-160",
+      "reduction": "loss = self.diffusion.compute_loss(batch)  (epsilon/sample prediction, white-noise target)",
+      "dtwarp_head": "FORBIDDEN for naive soft-DTW swap (epsilon has no temporal shape). dp_x0_aux_head is a v0.2 warned experimental stub only; NOT wired, NOT a CLAIM."
+    }
+  }
+}

@@ -1,0 +1,45 @@
+# venv / build
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+__pycache__/
+*.pyc
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# secrets / credentials (R11: never commit token/secret values)
+.env
+.env.*
+*.pem
+*.key
+*_token*
+*secret*
+.netrc
+
+# large data / datasets / model weights (never vendored)
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+data/
+datasets/
+wandb/
+outputs/
+hf_cache/
+.cache/
+
+# vendored-inspection clones (never part of the package)
+_vendor_*/
+_inspect_*/
+
+# eval artifacts that are regenerated (results JSON is committed selectively)
+eval_runs/
+
+# OS
+.DS_Store
