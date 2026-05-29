@@ -41,5 +41,8 @@ _inspect_*/
 # eval artifacts that are regenerated (results JSON is committed selectively)
 eval_runs/
 
+# autonomous-build progress state (internal protocol bookkeeping, not part of the package)
+.dtwarp-progress.json
+
 # OS
 .DS_Store
