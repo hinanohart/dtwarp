@@ -36,8 +36,8 @@
     "discrete": "dropped-guarded (VQ-BeT raises)",
     "tier1_dataset": "lerobot/pusht_keypoints(v3.0)",
     "tier2_sim": "gym-pusht",
-    "upgrades_v01": ["divergence", "convex-blend-knob", "derivative-channel(w_deriv=0)", "gak-optional-off"],
-    "upgrades_v02": ["dp_x0_aux+SNR-clamp", "DBA-barycenter-relabel", "mahalanobis-cost", "annealed-blend", "tier2-deferred"],
+    "upgrades_v01": ["divergence", "convex-blend-knob", "derivative-channel(w_deriv=0)"],
+    "upgrades_v02": ["dp_x0_aux+SNR-clamp", "DBA-barycenter-relabel", "mahalanobis-cost", "annealed-blend", "tier2-deferred", "gak-deferred-raises-NotImplementedError", "per_channel-deferred-raises"],
     "kernel_dep": { "reference": "mblondel(BSD-2-Clause, verified)", "cuda": "maghoumi(MIT) optional [cuda]" },
     "version_tag": "v0.1.0a1",
     "git_transport": "https-via-gh"
@@ -55,6 +55,12 @@
     "tier2": { "status": null, "success_delta": null, "ci_low": null, "ci_high": null },
     "results_path": null,
     "reproduced_in_clean_clone": false
+  },
+  "monitoring_trio_s5": {
+    "watchdog_a": "ON-TRACK (architect, fidelity): CRITICAL 0/MAJOR 0; re-ran pytest 29/ruff/mypy; numerically verified endpoint-seeded==slice & BIG-block-corner inflated; anchors all match live SHA 24017e96; DP-epsilon=white-noise confirmed in live source; OSS real (1364 LOC)",
+    "watchdog_b": "NOTHING-FORGOTTEN (critic, completeness+monitors-A): DoD 10-item coverage mapped; independently verified blend=0 GRADIENT bit-exact (maxdiff 0.0, no autograd leak) = a check A would miss; 3 MINOR follow-ups",
+    "meta_c": "BUILD-FIDELITY-ON-TRACK (verifier): A & B both functioned + mutually monitored; no contradictions; C's own pytest 29 pass + permanent-self-trip confirmed; escalated S0.5-skeleton-absent (M2/M3) to MAJOR -> RESOLVED now (ci.yml + scripts created, GAK/per_channel deferred-wording fixed, honest-marketing scanner avoids 'permanent')",
+    "resolved": "ci.yml (3-job: test matrix / lint / honest-marketing), scripts/verify_step.py, scripts/check_honest_marketing.py (python, self-testing negative fixture, no 'permanent' in banned list), tests/test_throughput.py (abs anti-hang + O(T^2) self-scaling, replaces unstable L1-ratio)"
   },
   "critic": { "verdict": null, "rounds": 0, "critical": [], "major": [], "blockers_open": [], "github_state_checked": false },
   "publish": { "name_checked": true, "repo_created": false, "branch_protected": false, "tagged": false, "released": false, "pypi": "deferred" },
