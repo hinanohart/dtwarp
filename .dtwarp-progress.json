@@ -4,7 +4,7 @@
   "repo_slug": "hinanohart/dtwarp",
   "protocol_version": "1.0",
   "trigger": "OSS\u958b\u59cb (continuation message, 2026-05-29)",
-  "current_step": "S8",
+  "current_step": "S10",
   "completed_steps": [
     "S0",
     "S0_5",
@@ -14,7 +14,8 @@
     "S4",
     "S5",
     "S6",
-    "S7"
+    "S7",
+    "S8"
   ],
   "step_attempts": 0,
   "s4_s5_evidence": "29 tests pass; ruff clean; mypy --strict 0 issues. S4: act_head/flow_matching_head blend=0 bit-exact vs independent inline transcription of LeRobot ACT(masked-L1 num_valid*A) and flow MSE (pi0 plain-mean / SmolVLA masked-mean); AnnealedBlendSchedule monotone-clamped; dp_x0_aux warns; VQ-BeT/diffusion guards raise; wrap_policy(mock ACT) blend=0 matches native. S5: cuda fast-path lazy (not imported at package load), _fastpath_ok guard branches, never-vendored source scan, CPU fallback==reference.",
@@ -152,12 +153,17 @@
     "resolved": "ci.yml (3-job: test matrix / lint / honest-marketing), scripts/verify_step.py, scripts/check_honest_marketing.py (python, self-testing negative fixture, no 'permanent' in banned list), tests/test_throughput.py (abs anti-hang + O(T^2) self-scaling, replaces unstable L1-ratio)"
   },
   "critic": {
-    "verdict": null,
-    "rounds": 0,
+    "verdict": "SHIP-READY (A architect + B critic + C verifier, S8 gate)",
+    "rounds": 1,
     "critical": [],
     "major": [],
+    "minor_fixed": [
+      "phase-invariant->phase-tolerant",
+      "progress test-count refresh 37"
+    ],
     "blockers_open": [],
-    "github_state_checked": false
+    "github_state_checked": false,
+    "s11_must_do": "CI 6-run green + branch protection 8 contexts + repo 404->live + release v0.1.0a1 pre-release + dependabot guard + clean-clone repro"
   },
   "publish": {
     "name_checked": true,
@@ -177,12 +183,12 @@
     "S5": true,
     "S6": true,
     "S7": true,
-    "S8": false,
+    "S8": true,
     "S9": false,
     "S10": false,
     "S11": false
   },
-  "next_action": "S8 3-agent critic gate (A code/math vs arch + B honest/overclaim/scoop + C verifier/CI-yaml-correctness) before publish",
+  "next_action": "S10 publish: gh repo create --public --source=. --push; CI green; branch protection (8 contexts); hardening; tag v0.1.0a1 pre-release",
   "blockers": [],
   "wip_quarantine": [],
   "retry_counts": {},
@@ -197,5 +203,6 @@
     "paused": false,
     "reason": null,
     "since": null
-  }
+  },
+  "test_count_current": 37
 }

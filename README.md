@@ -2,7 +2,7 @@
 
 **A soft-DTW divergence loss head for [LeRobot](https://github.com/huggingface/lerobot) imitation learning.**
 
-Temporally-elastic, phase-invariant, pad-aware, and a drop-in for ACT and flow-matching
+Temporally-elastic, phase-tolerant, pad-aware, and a drop-in for ACT and flow-matching
 (SmolVLA / pi0) policies. Pure PyTorch, CPU-trainable, no vendored kernels.
 
 > **Status: v0.1.0a1 (pre-alpha).** Apache-2.0. The only correctness *claim* is the
