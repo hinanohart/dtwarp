@@ -21,9 +21,11 @@ reachable behind `raw_softdtw=True` (debug flag), never the public default.
 - Length normalization uses **T_valid** (post-mask valid length), matching LeRobot's
   `num_valid` convention — not T_pad, not sqrt(T).
 - Ground cost: **joint squared-euclidean over action_dim** by default. `per_channel`
-  (independent-per-dimension warping) and the `gak` (global-alignment-kernel) variant are
-  **deferred to v0.2 and currently raise `NotImplementedError`** — the v0.1 risk they would
-  address (onset crispness) is already covered by the optional derivative cost channel.
+  (independent-per-dimension warping) is exposed as a parameter but **raises
+  `NotImplementedError` in v0.1** (deferred to v0.2). The `gak` (global-alignment-kernel)
+  variant is **not part of the v0.1 public API at all** — it is a v0.2 item with no surface
+  here, so there is no `gak=` flag to set. The v0.1 risk both would address (onset crispness)
+  is already covered by the optional derivative cost channel.
 
 ## 2. Padding & variable length (P2) — IMPLEMENTATION DEVIATION, justified
 
