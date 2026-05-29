@@ -28,9 +28,13 @@ padding/masking conventions, so it drops in without forking LeRobot.
 ```bash
 pip install dtwarp                 # core (CPU)
 pip install "dtwarp[lerobot]"      # + LeRobot integration
-pip install "dtwarp[cuda]"         # + optional CUDA fast-path (lazy, never vendored)
 pip install "dtwarp[eval]"         # + empirical harness deps
 ```
+
+The optional CUDA fast-path uses Maghoumi's `pytorch-softdtw-cuda` (MIT), which is **not on
+PyPI**. dtwarp lazy-imports it only if you make it importable yourself (e.g.
+`pip install "git+https://github.com/Maghoumi/pytorch-softdtw-cuda"`); otherwise the
+pure-PyTorch reference runs. It is never vendored and never a hard dependency.
 
 ## Quickstart
 

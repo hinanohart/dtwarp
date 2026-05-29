@@ -1,12 +1,12 @@
 """Optional CUDA fast-path for soft-DTW (lazy, guarded, never vendored).
 
-The default dtwarp path is the pure-PyTorch CPU/GPU reference in ``dtwarp.core.softdtw``. When the
-optional ``[cuda]`` extra (``pytorch-softdtw-cuda`` by Maghoumi, MIT) is installed AND a CUDA
-tensor is used AND the guard conditions hold (T <= 1024, gamma >= 0.05, no per-sample padding),
-this module can delegate the raw soft-DTW to that kernel. The kernel is imported lazily at call
-time — it is never a hard dependency, never imported at package import, and never vendored into
-this repository. The first successful delegation is numerically cross-checked against the CPU
-reference; any mismatch permanently disables the fast-path for the session.
+The default dtwarp path is the pure-PyTorch CPU/GPU reference in ``dtwarp.core.softdtw``. When
+``pytorch_softdtw_cuda`` (Maghoumi, MIT — NOT on PyPI; the user installs it themselves) is
+importable AND a CUDA tensor is used AND the guard conditions hold (T <= 1024, gamma >= 0.05, no
+per-sample padding), this module can delegate the raw soft-DTW to that kernel. The kernel is
+imported lazily at call time — it is never a hard dependency, never imported at package import, and
+never vendored into this repository. The first successful delegation is numerically cross-checked
+against the CPU reference; any mismatch permanently disables the fast-path for the session.
 """
 
 from __future__ import annotations

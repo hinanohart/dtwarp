@@ -29,8 +29,10 @@ Homepage = "https://github.com/hinanohart/dtwarp"
 Repository = "https://github.com/hinanohart/dtwarp"
 
 [project.optional-dependencies]
-# Optional CUDA fast-path. The kernel is lazy-imported only when present; never vendored.
-cuda = ["pytorch-softdtw-cuda"]
+# Optional CUDA fast-path: Maghoumi's `pytorch-softdtw-cuda` (MIT) is NOT on PyPI, so it cannot
+# be declared as a pip dependency. dtwarp lazy-imports it ONLY if you make it importable yourself
+# (e.g. `pip install git+https://github.com/Maghoumi/pytorch-softdtw-cuda` or add it to PYTHONPATH);
+# otherwise the pure-PyTorch reference is used. There is intentionally no `[cuda]` extra.
 # Optional LeRobot integration (drop-in wrap_policy / heads).
 lerobot = ["lerobot>=0.4.0"]
 # Empirical harness (Tier-1/Tier-2). gym-pusht is only needed for closed-loop Tier-2.

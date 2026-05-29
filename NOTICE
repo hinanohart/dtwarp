@@ -24,8 +24,9 @@ algorithmic provenance only.
    Divergence form: M. Blondel, A. Mensch, J.-P. Vert. "Differentiable Divergences
    Between Time Series." AISTATS 2021. arXiv:2010.08354
 
-2. CUDA fast-path (OPTIONAL, lazy-imported only when the `[cuda]` extra is
-   installed AND a CUDA device is present; never vendored, never a hard dependency)
+2. CUDA fast-path (OPTIONAL, lazy-imported only when `pytorch_softdtw_cuda` is importable
+   AND a CUDA device is present; not on PyPI, so the user installs it themselves; never
+   vendored, never a hard dependency)
    Mehran Maghoumi, "pytorch-softdtw-cuda"
    https://github.com/Maghoumi/pytorch-softdtw-cuda
    License: MIT (verified against the upstream LICENSE, 2026-05-29).

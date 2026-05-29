@@ -33,7 +33,7 @@ jobs:
       - name: Install (dev)
         run: uv pip install -e ".[dev]"
       - name: Unit tests (divergence golden + pad-mask non-vacuous + throughput smoke)
-        run: uv run pytest -q
+        run: uv run --no-sync pytest -q
 
   lint:
     name: lint (ruff + mypy strict)
@@ -46,8 +46,8 @@ jobs:
           cache-dependency-glob: "pyproject.toml"
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
-      - run: uv run ruff check src tests
-      - run: uv run mypy src/dtwarp
+      - run: uv run --no-sync ruff check src tests
+      - run: uv run --no-sync mypy src/dtwarp
 
   honest-marketing:
     name: honest-marketing gate
@@ -61,4 +61,4 @@ jobs:
       - run: uv venv --python 3.12
       - run: uv pip install -e .
       - name: No unsupported claims / hand-written benchmark numbers (self-testing scanner)
-        run: uv run python scripts/check_honest_marketing.py
+        run: uv run --no-sync python scripts/check_honest_marketing.py
