@@ -4,7 +4,7 @@
   "repo_slug": "hinanohart/dtwarp",
   "protocol_version": "1.0",
   "trigger": "OSS\u958b\u59cb (continuation message, 2026-05-29)",
-  "current_step": "S10",
+  "current_step": "S11",
   "completed_steps": [
     "S0",
     "S0_5",
@@ -15,7 +15,9 @@
     "S5",
     "S6",
     "S7",
-    "S8"
+    "S8",
+    "S9",
+    "S10"
   ],
   "step_attempts": 0,
   "s4_s5_evidence": "29 tests pass; ruff clean; mypy --strict 0 issues. S4: act_head/flow_matching_head blend=0 bit-exact vs independent inline transcription of LeRobot ACT(masked-L1 num_valid*A) and flow MSE (pi0 plain-mean / SmolVLA masked-mean); AnnealedBlendSchedule monotone-clamped; dp_x0_aux warns; VQ-BeT/diffusion guards raise; wrap_policy(mock ACT) blend=0 matches native. S5: cuda fast-path lazy (not imported at package load), _fastpath_ok guard branches, never-vendored source scan, CPU fallback==reference.",
@@ -144,7 +146,7 @@
       "ci_high": null
     },
     "results_path": "src/dtwarp/eval/results/tier1_pusht_keypoints.json",
-    "reproduced_in_clean_clone": false
+    "reproduced_in_clean_clone": true
   },
   "monitoring_trio_s5": {
     "watchdog_a": "ON-TRACK (architect, fidelity): CRITICAL 0/MAJOR 0; re-ran pytest 29/ruff/mypy; numerically verified endpoint-seeded==slice & BIG-block-corner inflated; anchors all match live SHA 24017e96; DP-epsilon=white-noise confirmed in live source; OSS real (1364 LOC)",
@@ -167,11 +169,14 @@
   },
   "publish": {
     "name_checked": true,
-    "repo_created": false,
-    "branch_protected": false,
-    "tagged": false,
-    "released": false,
-    "pypi": "deferred"
+    "repo_created": true,
+    "branch_protected": true,
+    "tagged": true,
+    "released": true,
+    "pypi": "deferred",
+    "url": "https://github.com/hinanohart/dtwarp",
+    "tag": "v0.1.0a1",
+    "prerelease": true
   },
   "checklist": {
     "S0": true,
@@ -184,8 +189,8 @@
     "S6": true,
     "S7": true,
     "S8": true,
-    "S9": false,
-    "S10": false,
+    "S9": true,
+    "S10": true,
     "S11": false
   },
   "next_action": "S10 publish: gh repo create --public --source=. --push; CI green; branch protection (8 contexts); hardening; tag v0.1.0a1 pre-release",
@@ -204,5 +209,21 @@
     "reason": null,
     "since": null
   },
-  "test_count_current": 37
+  "test_count_current": 37,
+  "ci_state": {
+    "latest_run": "26644447452",
+    "conclusion": "success",
+    "jobs_green": "8/8",
+    "cuda_extra_defect": "CI-caught: pytorch-softdtw-cuda not on PyPI -> removed [cuda] extra, re-verified green",
+    "dependabot_prs_closed": [
+      1,
+      2
+    ]
+  },
+  "s11_repro": {
+    "clean_clone_head": "659fab2",
+    "pytest": "37 pass",
+    "import": "OK",
+    "tier1_reproduced": "delta=-511.37273 CI=[-555.80759,-467.55085] EXACT match"
+  }
 }
