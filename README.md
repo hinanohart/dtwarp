@@ -5,7 +5,7 @@
 Temporally-elastic, phase-tolerant, pad-aware, and a drop-in for ACT and flow-matching
 (SmolVLA / pi0) policies. Pure PyTorch, CPU-trainable, no vendored kernels.
 
-> **Status: v0.1.0a1 (pre-alpha).** Apache-2.0. The only correctness *claim* is the
+> **Status: v0.1.0a1 (pre-alpha).** MIT. The only correctness *claim* is the
 > divergence mathematics and the LeRobot-faithful, pad-aware reductions — all machine-tested.
 > Whether the elastic loss improves a policy is an *empirical* question this repo measures
 > honestly (paired bootstrap CI); it is **not** asserted as a built-in fact. See
@@ -97,7 +97,7 @@ does **not** claim to improve policies; on the one neutral benchmark run so far 
 
 ## License & attribution
 
-Apache-2.0. The soft-DTW core is an independent re-implementation; see [`NOTICE`](NOTICE)
+MIT. The soft-DTW core is an independent re-implementation; see [`NOTICE`](NOTICE)
 for attribution to mblondel (BSD-2) and Maghoumi (MIT). Neither is vendored.
 
 ## Citation
