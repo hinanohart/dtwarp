@@ -1,0 +1,33 @@
+dtwarp
+Copyright 2026 hinanohart
+
+This product includes software developed at hinanohart (https://github.com/hinanohart).
+
+Licensed under the MIT License (see LICENSE).
+
+------------------------------------------------------------------------------
+Third-party attributions
+------------------------------------------------------------------------------
+
+This project's soft-DTW implementation is an independent re-implementation
+informed by the following works. NONE of the third-party code below is vendored,
+copied, or redistributed in this repository. They are cited for attribution and
+algorithmic provenance only.
+
+1. soft-DTW (forward recursion and the Cuturi-Blondel gradient algorithm)
+   Mathieu Blondel, "soft-dtw"  --  https://github.com/mblondel/soft-dtw
+   License: BSD-2-Clause (verified against the upstream LICENSE, 2026-05-29).
+   Reference: M. Cuturi, M. Blondel. "Soft-DTW: a Differentiable Loss Function
+   for Time-Series." ICML 2017. arXiv:1703.01541
+   Divergence form: M. Blondel, A. Mensch, J.-P. Vert. "Differentiable Divergences
+   Between Time Series." AISTATS 2021. arXiv:2010.08354
+
+2. CUDA fast-path (OPTIONAL, lazy-imported only when `pytorch_softdtw_cuda` is importable
+   AND a CUDA device is present; not on PyPI, so the user installs it themselves; never
+   vendored, never a hard dependency)
+   Mehran Maghoumi, "pytorch-softdtw-cuda"
+   https://github.com/Maghoumi/pytorch-softdtw-cuda
+   License: MIT (verified against the upstream LICENSE, 2026-05-29).
+
+dtwarp's default CPU path uses its own pure-PyTorch implementation and does not
+require either project to be installed.
