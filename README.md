@@ -83,29 +83,9 @@ the loss or the gradient.
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    pred[Predicted actions<br>B x T x A]
-    target[Target actions<br>B x T x A]
-    cost[Pairwise cost matrix<br>pairwise_cost]
-    sdtw[soft_dtw forward<br>anti-diagonal DP]
-    div[softdtw_divergence<br>D = SDTW x y - 0p5 SDTW x x - 0p5 SDTW y y]
-    base[masked_base_loss<br>native L1 or MSE]
-    blend[Blended loss<br>alpha x divergence + 1-alpha x base]
-    policy[LeRobot policy<br>ACT or flow head]
-    wrap[wrap_policy<br>or flow_matching_head]
-
-    pred --> cost
-    target --> cost
-    cost --> sdtw
-    sdtw --> div
-    pred --> base
-    target --> base
-    div --> blend
-    base --> blend
-    policy --> wrap
-    wrap --> blend
-```
+<div align="center">
+  <img src="docs/architecture.png" alt="dtwarp architecture" width="840">
+</div>
 
 ---
 
@@ -179,3 +159,4 @@ dtwarp is an integration layer; please also cite the underlying soft-DTW work:
   title={dtwarp: a soft-DTW divergence loss head for LeRobot imitation learning},
   author={hinanohart}, year={2026}, url={https://github.com/hinanohart/dtwarp}}
 ```
+

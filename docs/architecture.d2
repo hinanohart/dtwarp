@@ -1,0 +1,45 @@
+direction: down
+explanation: |md
+  ### dtwarp
+  **Soft-DTW divergence loss head for LeRobot imitation learning — differentiable, temporally-elastic trajectory distance.**
+| {near: top-center}
+
+inputs: "Inputs" {
+  style: {fill: "#fffbeb"; stroke: "#f59e0b"; font-color: "#92400e"; bold: true; font-size: 16}
+  pred: "① Predicted actions\nB × T × A"
+  target: "① Target actions\nB × T × A"
+  *.style.fill: "#fef3c7"; *.style.font-color: "#92400e"
+}
+
+policy: "② LeRobot Policy\nACT or flow head" {style: {fill: "#6366f1"; font-color: "#ffffff"; stroke: "#4338ca"; bold: true; font-size: 18}}
+wrap: "② wrap_policy\nor flow_matching_head" {style: {fill: "#0ea5e9"; font-color: "#ffffff"; stroke: "#0369a1"; bold: true; font-size: 18}}
+
+dtw_path: "Soft-DTW Path" {
+  style: {fill: "#f0fdf4"; stroke: "#10b981"; font-color: "#065f46"; bold: true; font-size: 16}
+  cost: "③ Pairwise cost matrix\npairwise_cost"
+  sdtw: "③ soft_dtw forward\nanti-diagonal DP"
+  div: "③ softdtw_divergence\nD = SDTW(x,y) - 0.5·SDTW(x,x) - 0.5·SDTW(y,y)"
+  *.style.fill: "#dcfce7"; *.style.font-color: "#065f46"
+}
+
+base: "③ masked_base_loss\nnative L1 or MSE" {style: {fill: "#dcfce7"; font-color: "#065f46"; stroke: "#10b981"}}
+
+blend: "④ Blended loss\nα × divergence + (1-α) × base" {shape: cylinder; style: {fill: "#fdf2f8"; stroke: "#ec4899"; font-color: "#9d174e"; bold: true; font-size: 18}}
+
+inputs.pred -> dtw_path.cost: "③ build"
+inputs.target -> dtw_path.cost: "③ build"
+dtw_path.cost -> dtw_path.sdtw: "③ DP"
+dtw_path.sdtw -> dtw_path.div: "③ compute"
+inputs.pred -> base: "③ loss"
+inputs.target -> base: "③ loss"
+dtw_path.div -> blend: "④ blend"
+base -> blend: "④ blend"
+policy -> wrap: "② wrap"
+wrap -> blend: "④ feed"
+
+legend: "Legend" {
+  near: bottom-center
+  style: {fill: "#f8fafc"; stroke: "#cbd5e1"; font-size: 13}
+  e: "● entry/policy"; c: "● core"; p: "● dtw step"; b: "● base loss"; d: "● output"
+  e.style.font-color: "#4338ca"; c.style.font-color: "#0369a1"; p.style.font-color: "#10b981"; b.style.font-color: "#f59e0b"; d.style.font-color: "#ec4899"
+}
