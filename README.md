@@ -16,15 +16,15 @@
 
 ```mermaid
 flowchart TD
-    pred[Predicted actions\nB x T x A]
-    target[Target actions\nB x T x A]
-    cost[Pairwise cost matrix\npairwise_cost]
-    sdtw[soft_dtw forward\nanti-diagonal DP]
-    div[softdtw_divergence\nD = SDTW x y - 0p5 SDTW x x - 0p5 SDTW y y]
-    base[masked_base_loss\nnative L1 or MSE]
-    blend[Blended loss\nalpha x divergence + 1-alpha x base]
-    policy[LeRobot policy\nACT or flow head]
-    wrap[wrap_policy\nor flow_matching_head]
+    pred[Predicted actions<br>B x T x A]
+    target[Target actions<br>B x T x A]
+    cost[Pairwise cost matrix<br>pairwise_cost]
+    sdtw[soft_dtw forward<br>anti-diagonal DP]
+    div[softdtw_divergence<br>D = SDTW x y - 0p5 SDTW x x - 0p5 SDTW y y]
+    base[masked_base_loss<br>native L1 or MSE]
+    blend[Blended loss<br>alpha x divergence + 1-alpha x base]
+    policy[LeRobot policy<br>ACT or flow head]
+    wrap[wrap_policy<br>or flow_matching_head]
 
     pred --> cost
     target --> cost
