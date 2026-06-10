@@ -95,7 +95,7 @@ dtwarp is layered in three modules:
 |---|---|---|
 | **Core** | `dtwarp.core` | Pairwise cost, soft-DTW DP (anti-diagonal wavefront), divergence formula |
 | **Loss heads** | `dtwarp.loss` | Pad-aware reductions for ACT (`act_head`), flow-matching (`flow_matching_head`), annealed blend schedule |
-| **Integration** | `wrap_policy` | Auto-detects policy type (ACT / SmolVLA / pi0), patches `forward` in-place |
+| **Integration** | `wrap_policy` | Auto-detects policy type; patches ACT `forward` in-place. For flow policies (SmolVLA / pi0) use `flow_matching_head` directly (see *What is wired*). |
 
 The core soft-DTW forward uses a batched anti-diagonal DP:
 
