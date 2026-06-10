@@ -12,34 +12,6 @@
 
 ---
 
-## Architecture
-
-```mermaid
-flowchart TD
-    pred[Predicted actions<br>B x T x A]
-    target[Target actions<br>B x T x A]
-    cost[Pairwise cost matrix<br>pairwise_cost]
-    sdtw[soft_dtw forward<br>anti-diagonal DP]
-    div[softdtw_divergence<br>D = SDTW x y - 0p5 SDTW x x - 0p5 SDTW y y]
-    base[masked_base_loss<br>native L1 or MSE]
-    blend[Blended loss<br>alpha x divergence + 1-alpha x base]
-    policy[LeRobot policy<br>ACT or flow head]
-    wrap[wrap_policy<br>or flow_matching_head]
-
-    pred --> cost
-    target --> cost
-    cost --> sdtw
-    sdtw --> div
-    pred --> base
-    target --> base
-    div --> blend
-    base --> blend
-    policy --> wrap
-    wrap --> blend
-```
-
----
-
 ## Why
 
 Standard behaviour cloning penalizes actions step-by-step (L1 for ACT, MSE on the
@@ -106,6 +78,34 @@ R[b, i, j] = cost[b, i-1, j-1] + softmin_gamma(R[b, i-1, j], R[b, i, j-1], R[b, 
 Variable-length sequences (padding) are handled by an endpoint-seeded wavefront: the value
 is read at each sample's valid endpoint `R[b, n-1, n-1]`, so padded positions never enter
 the loss or the gradient.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TD
+    pred[Predicted actions<br>B x T x A]
+    target[Target actions<br>B x T x A]
+    cost[Pairwise cost matrix<br>pairwise_cost]
+    sdtw[soft_dtw forward<br>anti-diagonal DP]
+    div[softdtw_divergence<br>D = SDTW x y - 0p5 SDTW x x - 0p5 SDTW y y]
+    base[masked_base_loss<br>native L1 or MSE]
+    blend[Blended loss<br>alpha x divergence + 1-alpha x base]
+    policy[LeRobot policy<br>ACT or flow head]
+    wrap[wrap_policy<br>or flow_matching_head]
+
+    pred --> cost
+    target --> cost
+    cost --> sdtw
+    sdtw --> div
+    pred --> base
+    target --> base
+    div --> blend
+    base --> blend
+    policy --> wrap
+    wrap --> blend
+```
 
 ---
 
