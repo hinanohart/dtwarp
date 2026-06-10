@@ -2,14 +2,43 @@
 
 **A soft-DTW divergence loss head for [LeRobot](https://github.com/huggingface/lerobot) imitation learning.**
 
-Temporally-elastic, phase-tolerant, pad-aware, and a drop-in for ACT and flow-matching
-(SmolVLA / pi0) policies. Pure PyTorch, CPU-trainable, no vendored kernels.
+`dtwarp` replaces the step-wise L1/MSE loss in ACT and flow-matching (SmolVLA / pi0) policies with the **soft-DTW divergence** — a differentiable, temporally-elastic distance that tolerates small phase shifts between predicted and demonstrated trajectories while remaining sensitive to trajectory shape. Pure PyTorch, CPU-trainable, no vendored kernels.
 
 > **Status: v0.1.0a1 (pre-alpha).** MIT. The only correctness *claim* is the
 > divergence mathematics and the LeRobot-faithful, pad-aware reductions — all machine-tested.
 > Whether the elastic loss improves a policy is an *empirical* question this repo measures
 > honestly (paired bootstrap CI); it is **not** asserted as a built-in fact. See
 > [Empirical results](#empirical-results).
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TD
+    pred[Predicted actions\nB x T x A]
+    target[Target actions\nB x T x A]
+    cost[Pairwise cost matrix\npairwise_cost]
+    sdtw[soft_dtw forward\nanti-diagonal DP]
+    div[softdtw_divergence\nD = SDTW x y - 0p5 SDTW x x - 0p5 SDTW y y]
+    base[masked_base_loss\nnative L1 or MSE]
+    blend[Blended loss\nalpha x divergence + 1-alpha x base]
+    policy[LeRobot policy\nACT or flow head]
+    wrap[wrap_policy\nor flow_matching_head]
+
+    pred --> cost
+    target --> cost
+    cost --> sdtw
+    sdtw --> div
+    pred --> base
+    target --> base
+    div --> blend
+    base --> blend
+    policy --> wrap
+    wrap --> blend
+```
+
+---
 
 ## Why
 
@@ -19,9 +48,11 @@ flow-matching velocity for SmolVLA/pi0). That makes the loss sensitive to small 
 trajectory is right. Soft-DTW measures distance under an optimal soft time-alignment, so
 it is forgiving of phase while staying sensitive to shape.
 
-dtwarp packages the **soft-DTW divergence** (Blondel/Mensch/Vert 2021) — the only form
+`dtwarp` packages the **soft-DTW divergence** (Blondel/Mensch/Vert 2021) — the only form
 that is a valid regression loss (non-negative, zero iff equal) — with LeRobot's exact
 padding/masking conventions, so it drops in without forking LeRobot.
+
+---
 
 ## Install
 
@@ -35,6 +66,8 @@ The optional CUDA fast-path uses Maghoumi's `pytorch-softdtw-cuda` (MIT), which 
 PyPI**. dtwarp lazy-imports it only if you make it importable yourself (e.g.
 `pip install "git+https://github.com/Maghoumi/pytorch-softdtw-cuda"`); otherwise the
 pure-PyTorch reference runs. It is never vendored and never a hard dependency.
+
+---
 
 ## Quickstart
 
@@ -52,6 +85,30 @@ policy = dtwarp.wrap_policy(policy, loss="softdtw_divergence", blend=0.5, gamma=
 `blend=0.0` is a hard guarantee: the wrapped loss equals LeRobot's own masked reduction
 exactly, so adopting dtwarp is risk-free to try (anneal `blend` up from 0).
 
+---
+
+## How it works
+
+dtwarp is layered in three modules:
+
+| Layer | Module | What it does |
+|---|---|---|
+| **Core** | `dtwarp.core` | Pairwise cost, soft-DTW DP (anti-diagonal wavefront), divergence formula |
+| **Loss heads** | `dtwarp.loss` | Pad-aware reductions for ACT (`act_head`), flow-matching (`flow_matching_head`), annealed blend schedule |
+| **Integration** | `wrap_policy` | Auto-detects policy type (ACT / SmolVLA / pi0), patches `forward` in-place |
+
+The core soft-DTW forward uses a batched anti-diagonal DP:
+
+```
+R[b, i, j] = cost[b, i-1, j-1] + softmin_gamma(R[b, i-1, j], R[b, i, j-1], R[b, i-1, j-1])
+```
+
+Variable-length sequences (padding) are handled by an endpoint-seeded wavefront: the value
+is read at each sample's valid endpoint `R[b, n-1, n-1]`, so padded positions never enter
+the loss or the gradient.
+
+---
+
 ## What is wired (v0.1)
 
 | Policy | Loss replaced | Status |
@@ -60,6 +117,8 @@ exactly, so adopting dtwarp is risk-free to try (anneal `blend` up from 0).
 | SmolVLA / pi0 | masked MSE on flow velocity `u_t = noise - actions` | `flow_matching_head` building block + adapter |
 | Diffusion-Policy (epsilon) | — | **forbidden** (white-noise target has no temporal shape) |
 | VQ-BeT / discrete | — | not supported (raises) |
+
+---
 
 ## Empirical results
 
@@ -95,10 +154,14 @@ dtwarp's **claims** are the correctness properties — the soft-DTW divergence m
 zero iff equal), pad-aware masking, and the bit-exact `blend=0` reduction — all machine-tested. It
 does **not** claim to improve policies; on the one neutral benchmark run so far it did not.
 
+---
+
 ## License & attribution
 
 MIT. The soft-DTW core is an independent re-implementation; see [`NOTICE`](NOTICE)
 for attribution to mblondel (BSD-2) and Maghoumi (MIT). Neither is vendored.
+
+---
 
 ## Citation
 
